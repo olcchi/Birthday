@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     inlineSSRStyles: false,
   },
   css: [
+    '@/globalStyle.css',
     '@unocss/reset/tailwind.css',
   ],
   colorMode: {
