@@ -13,6 +13,9 @@ export default defineNuxtConfig({
     '@/globalStyle.css',
     '@unocss/reset/tailwind.css',
   ],
+  build: {
+    transpile: ['gsap'],
+  },
   colorMode: {
     classSuffix: '',
   },

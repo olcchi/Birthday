@@ -1,5 +1,5 @@
 <template>
-  <main class="text-center">
+  <main class="snap-y overflow-y-scroll">
     <slot />
   </main>
 </template>

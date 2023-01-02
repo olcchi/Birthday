@@ -1,143 +1,85 @@
 <script lang="ts" setup>
-import type { Fn } from '@vueuse/core'
-const el = ref<null | HTMLCanvasElement>(null)
-
-const r180 = Math.PI
-const r90 = Math.PI / 2
-const r45 = Math.PI / 4
-const r15 = Math.PI / 12
-const color = 'black'
-const { random } = Math
-
-const size = reactive(useWindowSize())
-const start = ref<Fn>(() => {})
-const init = ref(4)
-const len = ref(6)
-const stoped = ref(false)
-const initCanvas = (canvas: HTMLCanvasElement, width = 400, height = 400, _dpi?: number) => {
-  const ctx = canvas.getContext('2d')!
-
-  const dpr = window.devicePixelRatio || 1
-  // @ts-expect-error vendor
-  const bsr = ctx.webkitBackingStorePixelRatio || ctx.mozBackingStorePixelRatio || ctx.msBackingStorePixelRatio || ctx.oBackingStorePixelRatio || ctx.backingStorePixelRatio || 1
-
-  const dpi = _dpi || dpr / bsr
-
-  canvas.style.width = `${width}px`
-  canvas.style.height = `${height}px`
-  canvas.width = dpi * width
-  canvas.height = dpi * height
-  ctx.scale(dpi, dpi)
-  return { ctx, dpi }
-}
-function polar2cart(x = 0, y = 0, r = 0, theta = 0) {
-  const dx = r * Math.cos(theta)
-  const dy = r * Math.sin(theta)
-  return [x + dx, y + dy]
-}
-onMounted(() => {
-  const canvas = el.value!
-
-  const { ctx } = initCanvas(canvas, size.width, size.height)
-  const { width, height } = canvas
-  let steps: Fn[] = []
-  let prevSteps: Fn[] = []
-
-  let iterations = 0
-
-  const step = (x: number, y: number, rad: number) => {
-    const length = random() * len.value
-    const [nx, ny] = polar2cart(x, y, length, rad)
-
-    ctx.beginPath()
-    ctx.moveTo(x, y)
-    ctx.lineTo(nx, ny)
-    ctx.stroke()
-
-    const rad1 = rad + random() * r15
-    const rad2 = rad - random() * r15
-
-    if (nx < -100 || nx > size.width + 100 || ny < -100 || ny > size.height + 100)
-      return
-
-    if (iterations <= init.value || random() > 0.5)
-      steps.push(() => step(nx, ny, rad1))
-    if (iterations <= init.value || random() > 0.5)
-      steps.push(() => step(nx, ny, rad2))
-  }
-
-  let lastTime = performance.now()
-  const interval = 1000 / 40
-
-  let controls: ReturnType<typeof useRafFn>
-
-  const frame = () => {
-    if (performance.now() - lastTime < interval)
-      return
-
-    iterations += 1
-    prevSteps = steps
-    steps = []
-    lastTime = performance.now()
-
-    if (!prevSteps.length) {
-      controls.pause()
-      stoped.value = true
-    }
-    prevSteps.forEach(i => i())
-  }
-
-  controls = useRafFn(frame, { immediate: false })
-
-  start.value = () => {
-    controls.pause()
-    iterations = 0
-    ctx.clearRect(0, 0, width, height)
-    ctx.lineWidth = 1
-    ctx.strokeStyle = color
-    prevSteps = []
-    steps = [
-      () => step(random() * size.width, 0, r90),
-      () => step(random() * size.width, size.height, -r90),
-      () => step(0, random() * size.height, 0),
-      () => step(size.width, random() * size.height, r180),
-    ]
-    if (size.width < 500)
-      steps = steps.slice(0, 2)
-    controls.resume()
-    stoped.value = false
-  }
-
-  start.value()
+import { gsap } from 'gsap'
+import ScrollTrigger from 'gsap/ScrollTrigger'
+gsap.registerPlugin(ScrollTrigger)
+const timeAgo = useTimeAgo(new Date(2020, 6, 16))
+const formatted = useDateFormat(useNow(), 'YYYY-MM-DD HH:mm:ss')
+const count = ref(0)
+const { pause, resume } = useRafFn(() => {
+  count.value += 100
 })
-const mask = computed(() => 'radial-gradient(circle, transparent, black);')
-function clone(target: any, map = new Map()) {
-  const type = typeof target
-  if (type === 'object') {
-    const cloneTarget = Array.isArray(target) ? [] : {}
-    if (map.get(target))
-      return map.get(target)
-
-    map.set(target, cloneTarget)
-    for (const key in target)
-      cloneTarget[key] = clone(target[key], map)
-    return cloneTarget
-  }
-  else {
-    return target
-  }
-}
-const a = [1, 2, 3, 4, 5, 6]
-const result = clone(a)
-console.log(result)
+watch(count, () => {
+  if (count.value >= 100000)
+    pause()
+})
+onMounted(() => {
+  ScrollTrigger.create({
+    trigger: '#box2',
+    markers: true,
+    start: 'top center',
+    end: '+=300',
+    pin: true,
+  })
+  // const tl = gsap.timeline()
+  const tl2 = gsap.timeline()
+  // tl.from('#text-wrapper', {
+  //   autoAlpha: 0,
+  //   duration: 0.7,
+  //   translateY: -100,
+  // })
+  tl2.from('#nav-wrapper', {
+    autoAlpha: 0,
+    duration: 0.7,
+    translateY: -100,
+  })
+  resume()
+})
 </script>
 
 <template>
-  <div
-    class="fixed top-0 bottom-0 left-0 right-0 pointer-events-none"
-    style="z-index: -1"
-    :style="`mask-image: ${mask};--webkit-mask-image: ${mask};`"
-  >
-    <canvas ref="el" width="400" height="400" />
+  <nav id="nav-wrapper" class="z-50 m-2 p-2 fixed w-4/5 left-1/10 flex justify-start drop-shadow-sm bg-white/30 backdrop-blur-lg dark:bg-transparent">
+    <div class="font-serif text-2xl p-2 dark:text-white">
+      Love Book
+    </div>
+  </nav>
+  <div id="container" class="overflow-y-scroll h-screen snap-y snap-mandatory">
+    <div>
+      <section id="text-wrapper" class="grid grid-cols-8 h-screen w-1/2 h-full flex flex-col justify-center  mx-auto snap-center m-1 scroll-mt-5">
+        <p class="text-6xl font-serif m-2">
+          hi,almira
+        </p>
+        <p class="text-base m-2">
+          此时此刻是: <span class="font-serif">
+            {{ formatted }}
+          </span>
+          <br>
+          当你看到这段话时我们已经一起踏入了2023年,我们已经在一起了
+        </p>
+        <div class="bg-black text-white m-2 p-1 w-24 text-center rounded hover:font-medium transition-all ease-in-out duration-100">
+          <span>
+            continue
+          </span>
+        </div>
+      </section>
+      <section id="box2" class=" h-screen h-4/5 md:w-1/2 h-full flex flex-col justify-center mx-auto snap-start m-1 scroll-mt-5 bg-blue-300">
+        <div>hi</div>
+      </section>
+      <section class=" h-screen h-4/5 md:w-1/2 h-full flex flex-col justify-center mx-auto snap-start m-1 scroll-mt-5">
+        <p class="text-4xl font-serif m-2">
+          hi,almira
+        </p>
+        <p class="text-lg m-2">
+          当你看到这段话时我们已经一起踏入了2023年
+        </p>
+      </section>
+      <section class=" h-screen h-4/5 md:w-1/2  h-full flex flex-col justify-center mx-auto snap-start m-1 scroll-mt-5">
+        <p class="text-4xl font-serif m-2">
+          hi,almira
+        </p>
+        <p class="text-lg m-2">
+          当你看到这段话时我们已经一起踏入了2023年
+        </p>
+      </section>
+    </div>
   </div>
 </template>
