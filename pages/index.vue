@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { json } from 'stream/consumers'
 import { gsap } from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
@@ -8,11 +7,7 @@ const count = ref(0)
 const { pause, resume } = useRafFn(() => {
   count.value += 100
 })
-const { data, pending, error } = await useFetch('https://api.vika.cn/fusion/v1/datasheets/dstTEbcKiyoQj0YzNg/records?viewId=viwAoGNVM4Lu3&fieldKey=name', {
-  method: 'post',
-  headers: { Authorization: 'Bearer uskK5FftsbXnLqrOV5DjzLY', ContentType: 'application/json' },
-  body: JSON.stringify({ records: [{ fields: { 标题: '你好' } }] }),
-})
+const inputContent = ref<string>('')
 const timeAgo = computed(() => {
   return useTimeAgo(new Date(1999, 1, 4)).value.substring(0, 2)
 })
@@ -94,20 +89,15 @@ onMounted(() => {
   resume()
 })
 const sendMessage = async () => {
-  // const { data, pending, error } = await useFetch('https://api.vika.cn/fusion/v1/datasheets/dstTEbcKiyoQj0YzNg/records?viewId=viwAoGNVM4Lu3&fieldKey=name', {
-  //   method: 'post',
-  //   headers: { Authorization: 'Bearer uskK5FftsbXnLqrOV5DjzLY', ContentType: 'application/json' },
-  //   body: JSON.stringify({ records: [{ fields: { 标题: '你好' } }] }),
-  // })
+  const { data, pending, error } = await useFetch('https://api.vika.cn/fusion/v1/datasheets/dstTEbcKiyoQj0YzNg/records?viewId=viwAoGNVM4Lu3&fieldKey=name', {
+    method: 'post',
+    headers: { Authorization: 'Bearer uskK5FftsbXnLqrOV5DjzLY' },
+    body: JSON.stringify({ records: [{ fields: { 标题: inputContent.value } }] }),
+  })
 }
 </script>
 
 <template>
-  <!-- <nav id="nav-wrapper" class="z-50 m-2 p-2 fixed w-4/5 left-1/10 flex justify-start drop-shadow-sm bg-white/30 backdrop-blur-lg dark:bg-transparent">
-    <div class="font-serif text-2xl p-2 dark:text-white">
-      Love Book
-    </div>
-  </nav> -->
   <div id="container" class="overflow-y-scroll h-screen snap-y snap-mandatory">
     <div>
       <section id="box1" class="flex justify-center items-center md:w-1/2 mx-auto h-screen md:p-20 h-full snap-center m-1 ">
@@ -152,7 +142,7 @@ const sendMessage = async () => {
           <div class="absolute -top-4 pl-3 pr-3 pb-1 font-bold left-10 text-xl text-black z-20 bg-white dark:bg-black dark:text-white">
             道别和愿景
           </div>
-          <textarea id="textArea" class="border border-black dark:border-white dark:bg-black border-2 rounded-lg p-10 h-full w-full" />
+          <textarea id="textArea" v-model="inputContent" class="border border-black dark:border-white dark:bg-black border-2 rounded-lg p-10 h-full w-full" />
           <div id="send" class="bg-black text-white dark:bg-white w-full transition-all duration-300 dark:text-black text-center rounded" @click="sendMessage">
             我写好了
           </div>
