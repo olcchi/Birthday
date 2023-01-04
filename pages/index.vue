@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { json } from 'stream/consumers'
 import { gsap } from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
@@ -6,6 +7,11 @@ const formatted = useDateFormat(useNow(), 'YYYY-MM-DD HH:mm:ss')
 const count = ref(0)
 const { pause, resume } = useRafFn(() => {
   count.value += 100
+})
+const { data, pending, error } = await useFetch('https://api.vika.cn/fusion/v1/datasheets/dstTEbcKiyoQj0YzNg/records?viewId=viwAoGNVM4Lu3&fieldKey=name', {
+  method: 'post',
+  headers: { Authorization: 'Bearer uskK5FftsbXnLqrOV5DjzLY', ContentType: 'application/json' },
+  body: JSON.stringify({ records: [{ fields: { 标题: '你好' } }] }),
 })
 const timeAgo = computed(() => {
   return useTimeAgo(new Date(1999, 1, 4)).value.substring(0, 2)
@@ -48,7 +54,7 @@ onMounted(() => {
       start: 'center center',
       end: 'bottom top',
       scrub: true,
-      markers: true,
+      // markers: true,
     },
   })
   gsap.to('#helloArrow', {
@@ -59,14 +65,24 @@ onMounted(() => {
       trigger: '#helloArrow',
       start: 'top center',
       end: 'top top',
-      markers: true,
+      // markers: true,
+      scrub: true,
+    },
+  })
+  gsap.to('#send', {
+    autoAlpha: 0,
+    scrollTrigger: {
+      scroller: '#container',
+      trigger: '#send',
+      start: 'top center',
+      end: 'bottom center',
+      // markers: true,
       scrub: true,
     },
   })
   gsap.to('#textArea', {
     autoAlpha: 0,
     y: 10,
-    duration: 2,
     scrollTrigger: {
       scroller: '#container',
       trigger: '#textArea',
@@ -77,6 +93,13 @@ onMounted(() => {
   })
   resume()
 })
+const sendMessage = async () => {
+  // const { data, pending, error } = await useFetch('https://api.vika.cn/fusion/v1/datasheets/dstTEbcKiyoQj0YzNg/records?viewId=viwAoGNVM4Lu3&fieldKey=name', {
+  //   method: 'post',
+  //   headers: { Authorization: 'Bearer uskK5FftsbXnLqrOV5DjzLY', ContentType: 'application/json' },
+  //   body: JSON.stringify({ records: [{ fields: { 标题: '你好' } }] }),
+  // })
+}
 </script>
 
 <template>
@@ -120,7 +143,6 @@ onMounted(() => {
           和24岁的自己问好
         </div>
         <div class="md:ml-10 md:mt-0 hover:translate-y-2 transition-all">
-          <!-- <i id="helloArrow" class="i-carbon-arrow-down cursor-pointer p-5 md:p-10" @click="nextPage" /> -->
           <arrow id="helloArrow" class="w-20 h-20" />
         </div>
       </section>
@@ -131,7 +153,7 @@ onMounted(() => {
             道别和愿景
           </div>
           <textarea id="textArea" class="border border-black dark:border-white dark:bg-black border-2 rounded-lg p-10 h-full w-full" />
-          <div class="bg-black text-white dark:bg-white w-23 hover:w-full transition-all duration-300 dark:text-black text-center rounded">
+          <div id="send" class="bg-black text-white dark:bg-white w-full transition-all duration-300 dark:text-black text-center rounded" @click="sendMessage">
             我写好了
           </div>
         </div>
