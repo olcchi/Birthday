@@ -86,6 +86,41 @@ onMounted(() => {
       scrub: true,
     },
   })
+  gsap.to('#img1', {
+    x: 150,
+    rotate: 15,
+    scrollTrigger: {
+      scroller: '#container',
+      trigger: '#img1',
+      start: 'top bottom',
+      end: 'top top',
+      // markers: true,
+      scrub: true,
+    },
+  })
+  gsap.to('#img2', {
+    y: -20,
+    scrollTrigger: {
+      scroller: '#container',
+      trigger: '#img2',
+      start: 'top bottom',
+      end: 'top top',
+      // markers: true,
+      scrub: true,
+    },
+  })
+  gsap.to('#img3', {
+    x: -150,
+    rotate: -15,
+    scrollTrigger: {
+      scroller: '#container',
+      trigger: '#img3',
+      start: 'top bottom',
+      end: 'top top',
+      // markers: true,
+      scrub: true,
+    },
+  })
   resume()
 })
 const sendMessage = async () => {
@@ -105,15 +140,11 @@ const sendMessage = async () => {
           <div class="absolute -top-12 md:-left-8  text-16 -rotate-25">
             🎂
           </div>
-          <p class="text-2xl font-serif m-2 dark:text-black">
+          <p class="text-2xl font-serif m-2">
             hi,almira
           </p>
-          <p class="text-lg m-2 text-bold dark:text-black">
-            <!-- 此时此刻是: <span class="font-serif">
-              {{ formatted }}
-            </span>
-            <br> -->
-            <span class="dark:text-black">
+          <p class="text-lg m-2 text-bold">
+            <span>
               当1月3日的秒针转完最后一圈,意味着你已经告别粉色的23岁。<br>
               现在,你24岁了,祝你{{ timeAgo }}岁生日快乐,祝你永远快乐。
             </span>
@@ -125,7 +156,11 @@ const sendMessage = async () => {
           </div>
         </div>
       </section>
-
+      <section class="relative flex justify-center items-center md:w-1/2 mx-auto h-screen md:p-20 h-full snap-center m-1 ">
+        <nuxt-img id="img1" class="absolute shadow-lg w-72" src="https://s1.vika.cn/space/2023/01/05/360e5ea076a9444baacc5eca60194790?attname=A_2.webp" />
+        <nuxt-img id="img2" class="absolute shadow-lg w-72" src="https://s1.vika.cn/space/2023/01/05/0e5c52fa300d4dc6b831571f96525c55?attname=A_3.webp" />
+        <nuxt-img id="img3" class="absolute shadow-lg w-72" src="https://s1.vika.cn/space/2023/01/05/87b92d36f8f649a19015a16e1ee89ef8?attname=A_1.webp" />
+      </section>
       <section id="box2" class="h-screen md:w-1/2 flex flex-col md:flex-row items-center justify-center mx-auto snap-start m-1 p-20">
         <div id="helloText" class="text-4xl md:text-4xl font-bold leading-14 md:leading-16">
           和23岁的自己道别<br>
