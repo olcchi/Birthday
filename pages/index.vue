@@ -7,6 +7,7 @@ const count = ref(0)
 const { pause, resume } = useRafFn(() => {
   count.value += 100
 })
+const container = ref<HTMLDivElement | null>(null)
 const inputContent = ref<string>('')
 const timeAgo = computed(() => {
   return useTimeAgo(new Date(1999, 1, 4)).value.substring(0, 2)
@@ -16,19 +17,57 @@ watch(count, () => {
     pause()
 })
 onMounted(() => {
+  const mm = gsap.matchMedia()
+  mm.add('(max-width: 799px)', () => {
+    gsap.to('#img1', {
+      scale: 2,
+      y: -100,
+      x: 50,
+      rotate: 15,
+      scrollTrigger: {
+        scroller: '#container',
+        trigger: '#img1',
+        start: 'top bottom',
+        end: 'top top',
+        markers: true,
+        scrub: true,
+      },
+    })
+  })
+  mm.add('(max-width: 799px)', () => {
+    gsap.to('#img3', {
+      scale: 2,
+      y: 100,
+      x: 50,
+      rotate: -15,
+      scrollTrigger: {
+        scroller: '#container',
+        trigger: '#img3',
+        start: 'top bottom',
+        end: 'top top',
+        markers: true,
+        scrub: true,
+      },
+    })
+  })
+  mm.add('(max-width: 799px)', () => {
+    gsap.to('#img2', {
+      scale: 2,
+      y: -20,
+      scrollTrigger: {
+        scroller: '#container',
+        trigger: '#img2',
+        start: 'top bottom',
+        end: 'top top',
+        markers: true,
+        scrub: true,
+      },
+    })
+  })
   gsap.from('#box3', {
     scrollTrigger: {
       scroller: '#container',
       trigger: '#box3',
-      toggleActions: 'restart none none none',
-    },
-    autoAlpha: 0,
-    duration: 3,
-  })
-  gsap.from('#box4', {
-    scrollTrigger: {
-      scroller: '#container',
-      trigger: '#box4',
       toggleActions: 'restart none none none',
     },
     autoAlpha: 0,
@@ -75,6 +114,7 @@ onMounted(() => {
       scrub: true,
     },
   })
+
   gsap.to('#textArea', {
     autoAlpha: 0,
     y: 10,
@@ -86,40 +126,50 @@ onMounted(() => {
       scrub: true,
     },
   })
-  gsap.to('#img1', {
-    x: 150,
-    rotate: 15,
-    scrollTrigger: {
-      scroller: '#container',
-      trigger: '#img1',
-      start: 'top bottom',
-      end: 'top top',
-      // markers: true,
-      scrub: true,
-    },
+
+  mm.add('(min-width:800px)', () => {
+    gsap.to('#img1', {
+      scale: 1.2,
+      x: 150,
+      rotate: 15,
+      scrollTrigger: {
+        scroller: '#container',
+        trigger: '#img1',
+        start: 'top bottom',
+        end: 'top top',
+        // markers: true,
+        scrub: true,
+      },
+    })
   })
-  gsap.to('#img2', {
-    y: -20,
-    scrollTrigger: {
-      scroller: '#container',
-      trigger: '#img2',
-      start: 'top bottom',
-      end: 'top top',
-      // markers: true,
-      scrub: true,
-    },
+  mm.add('(min-width:800px)', () => {
+    gsap.to('#img2', {
+      scale: 1.2,
+      y: -20,
+      scrollTrigger: {
+        scroller: '#container',
+        trigger: '#img2',
+        start: 'top bottom',
+        end: 'top top',
+        // markers: true,
+        scrub: true,
+      },
+    })
   })
-  gsap.to('#img3', {
-    x: -150,
-    rotate: -15,
-    scrollTrigger: {
-      scroller: '#container',
-      trigger: '#img3',
-      start: 'top bottom',
-      end: 'top top',
-      // markers: true,
-      scrub: true,
-    },
+  mm.add('(min-width:800px)', () => {
+    gsap.to('#img3', {
+      scale: 1.2,
+      x: -150,
+      rotate: -15,
+      scrollTrigger: {
+        scroller: '#container',
+        trigger: '#img3',
+        start: 'top bottom',
+        end: 'top top',
+        // markers: true,
+        scrub: true,
+      },
+    })
   })
   resume()
 })
@@ -130,16 +180,17 @@ const sendMessage = async () => {
     body: JSON.stringify({ records: [{ fields: { 标题: inputContent.value } }] }),
   })
 }
+const nextPage = () => {
+  container.value?.scrollBy({ top: 10, left: 0, behavior: 'smooth' })
+}
 </script>
 
 <template>
-  <div id="container" class="overflow-y-scroll h-screen snap-y snap-mandatory">
+  <div id="container" ref="container" class="overflow-y-scroll h-screen snap-y snap-mandatory">
     <div>
-      <section id="box1" class="flex justify-center items-center md:w-1/2 mx-auto h-screen md:p-20 h-full snap-center m-1 ">
+      <section id="box1" class="flex flex-col justify-center items-center md:w-1/2 mx-auto h-screen md:p-20 h-full snap-center m-1 ">
+        <heart class="h-12 mb-40" />
         <div class="text-center p-10 rounded-lg relative">
-          <div class="absolute -top-12 md:-left-8  text-16 -rotate-25">
-            🎂
-          </div>
           <p class="text-2xl font-serif m-2">
             hi,almira
           </p>
@@ -157,9 +208,9 @@ const sendMessage = async () => {
         </div>
       </section>
       <section class="relative flex justify-center items-center md:w-1/2 mx-auto h-screen md:p-20 h-full snap-center m-1 ">
-        <nuxt-img id="img1" class="absolute shadow-lg w-72" src="https://s1.vika.cn/space/2023/01/05/360e5ea076a9444baacc5eca60194790?attname=A_2.webp" />
-        <nuxt-img id="img2" class="absolute shadow-lg w-72" src="https://s1.vika.cn/space/2023/01/05/0e5c52fa300d4dc6b831571f96525c55?attname=A_3.webp" />
-        <nuxt-img id="img3" class="absolute shadow-lg w-72" src="https://s1.vika.cn/space/2023/01/05/87b92d36f8f649a19015a16e1ee89ef8?attname=A_1.webp" />
+        <nuxt-img id="img1" class="absolute shadow-lg w-24 md:w-72" src="https://s1.vika.cn/space/2023/01/05/360e5ea076a9444baacc5eca60194790?attname=A_2.webp" />
+        <nuxt-img id="img2" class="absolute shadow-lg w-24 md:w-72" src="https://s1.vika.cn/space/2023/01/05/0e5c52fa300d4dc6b831571f96525c55?attname=A_3.webp" />
+        <nuxt-img id="img3" class="absolute shadow-lg w-24 md:w-72" src="https://s1.vika.cn/space/2023/01/05/87b92d36f8f649a19015a16e1ee89ef8?attname=A_1.webp" />
       </section>
       <section id="box2" class="h-screen md:w-1/2 flex flex-col md:flex-row items-center justify-center mx-auto snap-start m-1 p-20">
         <div id="helloText" class="text-4xl md:text-4xl font-bold leading-14 md:leading-16">
@@ -167,7 +218,7 @@ const sendMessage = async () => {
           以及 <br>
           和24岁的自己问好
         </div>
-        <div class="md:ml-10 md:mt-0 hover:translate-y-2 transition-all">
+        <div class="md:ml-10 md:mt-0 hover:translate-y-2 transition-all" @click="nextPage">
           <arrow id="helloArrow" class="w-20 h-20" />
         </div>
       </section>
@@ -185,8 +236,10 @@ const sendMessage = async () => {
       </section>
 
       <section id="box3" class=" h-screen md:w-1/2 h-full flex justify-center items-center mx-auto snap-start m-1">
-        <div class="text-4xl">
-          此时此刻是: <span class="font-serif">
+        <div class="text-2xl">
+          <p>恭喜你开始24岁的人生啦</p>
+          此时此刻是:
+          <span class="font-serif">
             {{ formatted }}
           </span>
           <br>
