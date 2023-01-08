@@ -8,7 +8,9 @@ const inputContent = ref<string>('')
 const timeAgo = computed(() => {
   return useTimeAgo(new Date(1999, 1, 4)).value.substring(0, 2)
 })
-
+function doSomething<T>(fn: (a: string) => void) {
+  fn('2')
+}
 onMounted(() => {
   const mm = gsap.matchMedia()
   mm.add('(max-width: 799px)', () => {
@@ -201,12 +203,6 @@ const nextPage = () => {
     <div>
       <section id="box1" class="flex flex-col justify-center items-center md:w-1/2 mx-auto h-screen md:p-20 h-full snap-center m-1 ">
         <heart class="h-12 mb-40" />
-        <div class="text-3xl font-bold font-serif mt-10">
-          Happy Birthday
-        </div>
-        <div class="text-3xl font-bold font-serif mt-5">
-          Open The Gift
-        </div>
       </section>
       <section id="text-box" class="flex flex-col justify-center items-center md:w-1/2 mx-auto h-screen md:p-20 h-full snap-center m-1 ">
         <div class="text-center p-10 rounded-lg relative">
