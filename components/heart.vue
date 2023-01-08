@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { count } from 'console'
-
 const current = ref<number>(1)
 const counter = useInterval(120)
 const svgSrc = ref('')
@@ -14,6 +12,6 @@ watch(counter, () => {
 
 <template>
   <div>
-    <img ref="img2" :src="svgSrc" alt="">
+    <img :src="svgSrc" alt="">
   </div>
 </template>

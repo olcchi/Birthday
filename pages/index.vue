@@ -3,63 +3,54 @@ import { gsap } from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 const formatted = useDateFormat(useNow(), 'YYYY-MM-DD HH:mm:ss')
-const count = ref(0)
-const { pause, resume } = useRafFn(() => {
-  count.value += 100
-})
 const container = ref<HTMLDivElement | null>(null)
 const inputContent = ref<string>('')
 const timeAgo = computed(() => {
   return useTimeAgo(new Date(1999, 1, 4)).value.substring(0, 2)
 })
-watch(count, () => {
-  if (count.value >= 100000)
-    pause()
-})
+
 onMounted(() => {
   const mm = gsap.matchMedia()
   mm.add('(max-width: 799px)', () => {
     gsap.to('#img1', {
-      scale: 2,
-      y: -100,
+      scale: 1.6,
       x: 50,
-      rotate: 15,
+      rotate: 35,
       scrollTrigger: {
         scroller: '#container',
         trigger: '#img1',
         start: 'top bottom',
         end: 'top top',
-        markers: true,
+        // markers: true,
         scrub: true,
       },
     })
   })
   mm.add('(max-width: 799px)', () => {
     gsap.to('#img3', {
-      scale: 2,
-      y: 100,
-      x: 50,
-      rotate: -15,
+      scale: 1.6,
+      x: -50,
+      rotate: -35,
       scrollTrigger: {
         scroller: '#container',
         trigger: '#img3',
         start: 'top bottom',
         end: 'top top',
-        markers: true,
+        // markers: true,
         scrub: true,
       },
     })
   })
   mm.add('(max-width: 799px)', () => {
     gsap.to('#img2', {
-      scale: 2,
+      scale: 1.6,
       y: -20,
       scrollTrigger: {
         scroller: '#container',
         trigger: '#img2',
         start: 'top bottom',
         end: 'top top',
-        markers: true,
+        // markers: true,
         scrub: true,
       },
     })
@@ -69,6 +60,16 @@ onMounted(() => {
       scroller: '#container',
       trigger: '#box3',
       toggleActions: 'restart none none none',
+    },
+    autoAlpha: 0,
+    duration: 3,
+  })
+  gsap.from('#box4', {
+    scrollTrigger: {
+      scroller: '#container',
+      trigger: '#box4',
+      start: 'center center',
+      // markers: true,
     },
     autoAlpha: 0,
     duration: 3,
@@ -171,7 +172,17 @@ onMounted(() => {
       },
     })
   })
-  resume()
+  gsap.from('#text-box', {
+    autoAlpha: 0,
+    scrollTrigger: {
+      scroller: '#container',
+      trigger: '#text-box',
+      start: 'center 80%',
+      end: 'center center',
+      // markers: true,
+      scrub: true,
+    },
+  })
 })
 const sendMessage = async () => {
   const { data, pending, error } = await useFetch('https://api.vika.cn/fusion/v1/datasheets/dstTEbcKiyoQj0YzNg/records?viewId=viwAoGNVM4Lu3&fieldKey=name', {
@@ -190,6 +201,14 @@ const nextPage = () => {
     <div>
       <section id="box1" class="flex flex-col justify-center items-center md:w-1/2 mx-auto h-screen md:p-20 h-full snap-center m-1 ">
         <heart class="h-12 mb-40" />
+        <div class="text-3xl font-bold font-serif mt-10">
+          Happy Birthday
+        </div>
+        <div class="text-3xl font-bold font-serif mt-5">
+          Open The Gift
+        </div>
+      </section>
+      <section id="text-box" class="flex flex-col justify-center items-center md:w-1/2 mx-auto h-screen md:p-20 h-full snap-center m-1 ">
         <div class="text-center p-10 rounded-lg relative">
           <p class="text-2xl font-serif m-2">
             hi,almira
@@ -200,14 +219,12 @@ const nextPage = () => {
               现在,你24岁了,祝你{{ timeAgo }}岁生日快乐,祝你永远快乐。
             </span>
           </p>
-          <div class="bg-black text-white m-2 p-1 text-center rounded hover:font-medium transition-all ease-in-out duration-100 mx-auto">
-            <span>
-              打开生日礼物
-            </span>
-          </div>
         </div>
       </section>
       <section class="relative flex justify-center items-center md:w-1/2 mx-auto h-screen md:p-20 h-full snap-center m-1 ">
+        <div class="text-2xl">
+          Some Moment
+        </div>
         <nuxt-img id="img1" class="absolute shadow-lg w-24 md:w-72" src="https://s1.vika.cn/space/2023/01/05/360e5ea076a9444baacc5eca60194790?attname=A_2.webp" />
         <nuxt-img id="img2" class="absolute shadow-lg w-24 md:w-72" src="https://s1.vika.cn/space/2023/01/05/0e5c52fa300d4dc6b831571f96525c55?attname=A_3.webp" />
         <nuxt-img id="img3" class="absolute shadow-lg w-24 md:w-72" src="https://s1.vika.cn/space/2023/01/05/87b92d36f8f649a19015a16e1ee89ef8?attname=A_1.webp" />
@@ -222,26 +239,27 @@ const nextPage = () => {
           <arrow id="helloArrow" class="w-20 h-20" />
         </div>
       </section>
-
       <section id="box3" class=" h-screen md:w-1/2 h-full flex justify-center items-center mx-auto snap-start m-1">
         <div class="relative h-1/2 w-5/6">
-          <div class="absolute -top-4 pl-3 pr-3 pb-1 font-bold left-10 text-xl text-black z-20 bg-white dark:bg-black dark:text-white">
+          <div class="absolute -top-4 pl-3 pr-3 pb-1 font-bold left-10 text-xl text-black z-20 bg-white  ">
             道别和愿景
           </div>
-          <textarea id="textArea" v-model="inputContent" class="border border-black dark:border-white dark:bg-black border-2 rounded-lg p-10 h-full w-full" />
-          <div id="send" class="bg-black text-white dark:bg-white w-full transition-all duration-300 dark:text-black text-center rounded" @click="sendMessage">
+          <textarea id="textArea" v-model="inputContent" class="border border-black   border-2 rounded-lg p-10 h-full w-full" />
+          <div id="send" class="bg-black text-white  w-full transition-all duration-300  text-center rounded" @click="sendMessage">
             我写好了
           </div>
         </div>
       </section>
 
-      <section id="box3" class=" h-screen md:w-1/2 h-full flex justify-center items-center mx-auto snap-start m-1">
+      <section id="box4" class=" h-screen md:w-1/2 h-full flex justify-center items-center mx-auto snap-start m-1">
         <div class="text-2xl">
           <p>恭喜你开始24岁的人生啦</p>
-          此时此刻是:
-          <span class="font-serif">
-            {{ formatted }}
-          </span>
+          <p>
+            此时此刻是:
+            <span class="font-serif">
+              {{ formatted }}
+            </span>
+          </p>
           <br>
         </div>
       </section>
