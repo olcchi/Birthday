@@ -8,9 +8,6 @@ const inputContent = ref<string>('')
 const timeAgo = computed(() => {
   return useTimeAgo(new Date(1999, 1, 4)).value.substring(0, 2)
 })
-function doSomething<T>(fn: (a: string) => void) {
-  fn('2')
-}
 onMounted(() => {
   const mm = gsap.matchMedia()
   mm.add('(max-width: 799px)', () => {
