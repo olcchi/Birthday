@@ -166,7 +166,6 @@ onMounted(() => {
         trigger: '#img3',
         start: 'top bottom',
         end: 'top top',
-        // markers: true,
         scrub: true,
       },
     })
@@ -246,7 +245,6 @@ const nextPage = () => {
 
       <section id="box4" class=" h-screen md:w-1/2 h-full flex justify-center items-center mx-auto snap-start m-1">
         <div class="text-2xl">
-          <p>恭喜你开始24岁的人生啦</p>
           <p>
             此时此刻是:
             <span class="font-serif">
