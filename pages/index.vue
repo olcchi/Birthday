@@ -196,7 +196,7 @@
 
 <template>
   <div class="h-screen w-screen flex justify-center items-center">
-    <p class="font-sans bold text-4xl">
+    <p class="font-sans bold text-xl md:text-4xl">
       Can't find anything about love  :)
     </p>
   </div>
