@@ -1,206 +1,201 @@
 <script lang="ts" setup>
-// import { gsap } from 'gsap'
-// import ScrollTrigger from 'gsap/ScrollTrigger'
-// gsap.registerPlugin(ScrollTrigger)
-// const formatted = useDateFormat(useNow(), 'YYYY-MM-DD HH:mm:ss')
-// const container = ref<HTMLDivElement | null>(null)
-// const inputContent = ref<string>('')
-// const timeAgo = computed(() => {
-//   return useTimeAgo(new Date(1999, 1, 4)).value.substring(0, 2)
-// })
-// onMounted(() => {
-//   const mm = gsap.matchMedia()
-//   mm.add('(max-width: 799px)', () => {
-//     gsap.to('#img1', {
-//       scale: 1.6,
-//       x: 50,
-//       rotate: 35,
-//       scrollTrigger: {
-//         scroller: '#container',
-//         trigger: '#img1',
-//         start: 'top bottom',
-//         end: 'top top',
-//         // markers: true,
-//         scrub: true,
-//       },
-//     })
-//   })
-//   mm.add('(max-width: 799px)', () => {
-//     gsap.to('#img3', {
-//       scale: 1.6,
-//       x: -50,
-//       rotate: -35,
-//       scrollTrigger: {
-//         scroller: '#container',
-//         trigger: '#img3',
-//         start: 'top bottom',
-//         end: 'top top',
-//         // markers: true,
-//         scrub: true,
-//       },
-//     })
-//   })
-//   mm.add('(max-width: 799px)', () => {
-//     gsap.to('#img2', {
-//       scale: 1.6,
-//       y: -20,
-//       scrollTrigger: {
-//         scroller: '#container',
-//         trigger: '#img2',
-//         start: 'top bottom',
-//         end: 'top top',
-//         // markers: true,
-//         scrub: true,
-//       },
-//     })
-//   })
-//   gsap.from('#box3', {
-//     scrollTrigger: {
-//       scroller: '#container',
-//       trigger: '#box3',
-//       toggleActions: 'restart none none none',
-//     },
-//     autoAlpha: 0,
-//     duration: 3,
-//   })
-//   gsap.from('#box4', {
-//     scrollTrigger: {
-//       scroller: '#container',
-//       trigger: '#box4',
-//       start: 'center center',
-//       // markers: true,
-//     },
-//     autoAlpha: 0,
-//     duration: 3,
-//   })
-//   const tl = gsap.timeline()
-//   tl.from('#box1', {
-//     autoAlpha: 0,
-//     duration: 0.7,
-//     translateY: -100,
-//   })
-//   gsap.to('#helloText', {
-//     autoAlpha: 0,
-//     y: -50,
-//     scrollTrigger: {
-//       scroller: '#container',
-//       trigger: '#helloText',
-//       start: 'center center',
-//       end: 'bottom top',
-//       scrub: true,
-//       // markers: true,
-//     },
-//   })
-//   gsap.to('#helloArrow', {
-//     autoAlpha: 0,
-//     y: 50,
-//     scrollTrigger: {
-//       scroller: '#container',
-//       trigger: '#helloArrow',
-//       start: 'top center',
-//       end: 'top top',
-//       // markers: true,
-//       scrub: true,
-//     },
-//   })
-//   gsap.to('#send', {
-//     autoAlpha: 0,
-//     scrollTrigger: {
-//       scroller: '#container',
-//       trigger: '#send',
-//       start: 'top center',
-//       end: 'bottom center',
-//       // markers: true,
-//       scrub: true,
-//     },
-//   })
+import { gsap } from 'gsap'
+import ScrollTrigger from 'gsap/ScrollTrigger'
+gsap.registerPlugin(ScrollTrigger)
+const formatted = useDateFormat(useNow(), 'YYYY-MM-DD HH:mm:ss')
+const container = ref<HTMLDivElement | null>(null)
+const inputContent = ref<string>('')
+const timeAgo = computed(() => {
+  return useTimeAgo(new Date(1999, 1, 4)).value.substring(0, 2)
+})
+onMounted(() => {
+  const mm = gsap.matchMedia()
+  mm.add('(max-width: 799px)', () => {
+    gsap.to('#img1', {
+      scale: 1.6,
+      x: 50,
+      rotate: 35,
+      scrollTrigger: {
+        scroller: '#container',
+        trigger: '#img1',
+        start: 'top bottom',
+        end: 'top top',
+        // markers: true,
+        scrub: true,
+      },
+    })
+  })
+  mm.add('(max-width: 799px)', () => {
+    gsap.to('#img3', {
+      scale: 1.6,
+      x: -50,
+      rotate: -35,
+      scrollTrigger: {
+        scroller: '#container',
+        trigger: '#img3',
+        start: 'top bottom',
+        end: 'top top',
+        // markers: true,
+        scrub: true,
+      },
+    })
+  })
+  mm.add('(max-width: 799px)', () => {
+    gsap.to('#img2', {
+      scale: 1.6,
+      y: -20,
+      scrollTrigger: {
+        scroller: '#container',
+        trigger: '#img2',
+        start: 'top bottom',
+        end: 'top top',
+        // markers: true,
+        scrub: true,
+      },
+    })
+  })
+  gsap.from('#box3', {
+    scrollTrigger: {
+      scroller: '#container',
+      trigger: '#box3',
+      toggleActions: 'restart none none none',
+    },
+    autoAlpha: 0,
+    duration: 3,
+  })
+  gsap.from('#box4', {
+    scrollTrigger: {
+      scroller: '#container',
+      trigger: '#box4',
+      start: 'center center',
+      // markers: true,
+    },
+    autoAlpha: 0,
+    duration: 3,
+  })
+  const tl = gsap.timeline()
+  tl.from('#box1', {
+    autoAlpha: 0,
+    duration: 0.7,
+    translateY: -100,
+  })
+  gsap.to('#helloText', {
+    autoAlpha: 0,
+    y: -50,
+    scrollTrigger: {
+      scroller: '#container',
+      trigger: '#helloText',
+      start: 'center center',
+      end: 'bottom top',
+      scrub: true,
+      // markers: true,
+    },
+  })
+  gsap.to('#helloArrow', {
+    autoAlpha: 0,
+    y: 50,
+    scrollTrigger: {
+      scroller: '#container',
+      trigger: '#helloArrow',
+      start: 'top center',
+      end: 'top top',
+      // markers: true,
+      scrub: true,
+    },
+  })
+  gsap.to('#send', {
+    autoAlpha: 0,
+    scrollTrigger: {
+      scroller: '#container',
+      trigger: '#send',
+      start: 'top center',
+      end: 'bottom center',
+      // markers: true,
+      scrub: true,
+    },
+  })
 
-//   gsap.to('#textArea', {
-//     autoAlpha: 0,
-//     y: 10,
-//     scrollTrigger: {
-//       scroller: '#container',
-//       trigger: '#textArea',
-//       start: 'center center',
-//       end: 'top top',
-//       scrub: true,
-//     },
-//   })
+  gsap.to('#textArea', {
+    autoAlpha: 0,
+    y: 10,
+    scrollTrigger: {
+      scroller: '#container',
+      trigger: '#textArea',
+      start: 'center center',
+      end: 'top top',
+      scrub: true,
+    },
+  })
 
-//   mm.add('(min-width:800px)', () => {
-//     gsap.to('#img1', {
-//       scale: 1.2,
-//       x: 150,
-//       rotate: 15,
-//       scrollTrigger: {
-//         scroller: '#container',
-//         trigger: '#img1',
-//         start: 'top bottom',
-//         end: 'top top',
-//         // markers: true,
-//         scrub: true,
-//       },
-//     })
-//   })
-//   mm.add('(min-width:800px)', () => {
-//     gsap.to('#img2', {
-//       scale: 1.2,
-//       y: -20,
-//       scrollTrigger: {
-//         scroller: '#container',
-//         trigger: '#img2',
-//         start: 'top bottom',
-//         end: 'top top',
-//         // markers: true,
-//         scrub: true,
-//       },
-//     })
-//   })
-//   mm.add('(min-width:800px)', () => {
-//     gsap.to('#img3', {
-//       scale: 1.2,
-//       x: -150,
-//       rotate: -15,
-//       scrollTrigger: {
-//         scroller: '#container',
-//         trigger: '#img3',
-//         start: 'top bottom',
-//         end: 'top top',
-//         scrub: true,
-//       },
-//     })
-//   })
-//   gsap.from('#text-box', {
-//     autoAlpha: 0,
-//     scrollTrigger: {
-//       scroller: '#container',
-//       trigger: '#text-box',
-//       start: 'center 80%',
-//       end: 'center center',
-//       // markers: true,
-//       scrub: true,
-//     },
-//   })
-// })
-// const sendMessage = async () => {
-//   const { data, pending, error } = await useFetch('https://api.vika.cn/fusion/v1/datasheets/dstTEbcKiyoQj0YzNg/records?viewId=viwAoGNVM4Lu3&fieldKey=name', {
-//     method: 'post',
-//     headers: { Authorization: 'Bearer uskK5FftsbXnLqrOV5DjzLY' },
-//     body: JSON.stringify({ records: [{ fields: { 标题: inputContent.value } }] }),
-//   })
-// }
-// const nextPage = () => {
-//   container.value?.scrollBy({ top: 10, left: 0, behavior: 'smooth' })
-// }
+  mm.add('(min-width:800px)', () => {
+    gsap.to('#img1', {
+      scale: 1.2,
+      x: 150,
+      rotate: 15,
+      scrollTrigger: {
+        scroller: '#container',
+        trigger: '#img1',
+        start: 'top bottom',
+        end: 'top top',
+        // markers: true,
+        scrub: true,
+      },
+    })
+  })
+  mm.add('(min-width:800px)', () => {
+    gsap.to('#img2', {
+      scale: 1.2,
+      y: -20,
+      scrollTrigger: {
+        scroller: '#container',
+        trigger: '#img2',
+        start: 'top bottom',
+        end: 'top top',
+        // markers: true,
+        scrub: true,
+      },
+    })
+  })
+  mm.add('(min-width:800px)', () => {
+    gsap.to('#img3', {
+      scale: 1.2,
+      x: -150,
+      rotate: -15,
+      scrollTrigger: {
+        scroller: '#container',
+        trigger: '#img3',
+        start: 'top bottom',
+        end: 'top top',
+        scrub: true,
+      },
+    })
+  })
+  gsap.from('#text-box', {
+    autoAlpha: 0,
+    scrollTrigger: {
+      scroller: '#container',
+      trigger: '#text-box',
+      start: 'center 80%',
+      end: 'center center',
+      // markers: true,
+      scrub: true,
+    },
+  })
+})
+const sendMessage = async () => {
+  const { data, pending, error } = await useFetch('https://api.vika.cn/fusion/v1/datasheets/dstTEbcKiyoQj0YzNg/records?viewId=viwAoGNVM4Lu3&fieldKey=name', {
+    method: 'post',
+    headers: { Authorization: 'Bearer uskK5FftsbXnLqrOV5DjzLY' },
+    body: JSON.stringify({ records: [{ fields: { 标题: inputContent.value } }] }),
+  })
+}
+const nextPage = () => {
+  container.value?.scrollBy({ top: 10, left: 0, behavior: 'smooth' })
+}
 </script>
 
 <template>
-  <div class="h-screen w-screen flex justify-center items-center">
-    <p class="font-sans bold text-xl md:text-4xl">
-      Can't find anything about love  :)
-    </p>
-  </div>
-  <!-- <div id="container" ref="container" class="overflow-y-scroll h-screen snap-y snap-mandatory">
+  <div id="container" ref="container" class="overflow-y-scroll h-screen snap-y snap-mandatory">
     <div>
       <section id="box1" class="flex flex-col justify-center items-center md:w-1/2 mx-auto h-screen md:p-20 h-full snap-center m-1 ">
         <heart class="h-12 mb-40" />
@@ -260,5 +255,5 @@
         </div>
       </section>
     </div>
-  </div> -->
+  </div>
 </template>
