@@ -16,9 +16,6 @@ useHead({
 </template>
 
 <style>
-::-webkit-scrollbar{
-  display: none;
-}
 html, body , #__nuxt{
   height: 100vh;
   margin: 0;
